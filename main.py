@@ -23,29 +23,51 @@ def take():
     if count > 21:
         results['text'] = 'Ви програли, набравши {} очок'.format(str(count))
         count_label['text'] = count
+        button1.grid_forget()
+        button2.grid_forget()
+        button3.grid(row=2, column=0)
     else:
         count_label['text'] = 'У вас {} очків, взяти ще?'.format(str(count))
 
 
 def enough():
     global koloda, count
+    button1.grid_forget()
+    button2.grid_forget()
+    button3.grid(row=2, column=0)
+    count_label.grid_forget()
     if count == 21:
         results['text'] = 'Вітаємо з перемогою, у вас очко'
     else:
         results['text'] = 'Ви завершили гру з результатом  в {} очок'.format(count)
 
 
-root = Tk()
-root.geometry("300x140")
+def restart():
+    global koloda, count
+    count = 0
+    shuffle(koloda)
+    button1.grid(row=2, column=0)
+    button2.grid(row=3, column=0)
+    button3.grid_forget()
+    results.grid_forget()
 
-game_label = Label(root, text="Блекджек 4444", fg="red", bg="black")
-game_label.place(x=100, y=0)
+
+root = Tk()
+root.title("The black-jack")
+root.geometry("400x300")
+
+game_label = Label(root, text="Блекджек 4444", font="ubuntu", fg="red", bg="black")
+game_label.grid(row=0, columnspan=3)
+
 count_label = Label(root, text="У вас 0 очок")
-count_label.place(x=110, y=30)
-button1 = Button(root, width="15", text="Взяти карту", command=take)
-button1.place(x=20, y=60)
-button2 = Button(root, width="15", text="Хватить", command=enough)
-button2.place(x=160, y=60)
+count_label.grid(row=1, column=0)
+
+button1 = Button(root, width="15", font=("ubuntu", 30), text="Взяти карту", command=take)
+button1.grid(row=2, column=0)
+button2 = Button(root, width="15", font=("ubuntu", 30), text="Хватить", command=enough)
+button2.grid(row=3, column=0)
+button3 = Button(root, width="15", font=("ubuntu", 30), text="Спробувати ще", command=restart)
+
 results = Label(root, text="", fg="red")
-results.place(x=50, y=100)
+results.grid(row=4, column=0)
 root.mainloop()
